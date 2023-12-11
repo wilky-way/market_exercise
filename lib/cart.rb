@@ -40,6 +40,7 @@ class Cart
     puts '----                           -----'
   end
 
+  # Print out the total at the bottom of the output
   def print_footer(total)
     puts '------------------------------------'
     puts format('%.2f', total).to_s.rjust(36)

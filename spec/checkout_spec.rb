@@ -55,5 +55,4 @@ describe Checkout do
       expect(checkout.products['CH1'].price).to eq(3.11)
     end
   end
-
 end

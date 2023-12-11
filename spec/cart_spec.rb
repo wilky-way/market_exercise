@@ -31,7 +31,7 @@ describe Cart do
     end
   end
 
-describe '#calculate_total' do
+  describe '#calculate_total' do
     it 'returns the total' do
       cart.add_item('CH1')
       cart.add_item('AP1')
