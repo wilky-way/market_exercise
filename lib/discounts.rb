@@ -31,7 +31,7 @@ class Discounts
     price
   end
 
-  # If you buy 3 or more bags of Apples, the price drops to $4.50.
+  # If you buy 3 or more bags of Apples, the price drops to $4.50
   def appl(code, quantity)
     price = @products[code].price
     if quantity >= 3
@@ -45,7 +45,7 @@ class Discounts
   # Purchase a box of Chai and get milk free. (Limit 1)
   def chmk(code)
     price = @products[code].price
-    if @cart['CH1']&.positive? && @chmk_count == 0
+    if @cart['CH1']&.positive? && @chmk_count.zero?
       @chmk_count += 1
       puts "            CHMK              -$#{price}"
       0
