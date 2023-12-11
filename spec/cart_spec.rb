@@ -66,5 +66,26 @@ describe '#calculate_total' do
       discounts = Discounts.new(products, cart.items)
       expect(cart.calculate_total(discounts, products)).to eq(16.61)
     end
+    it 'passes test case 5' do
+      cart.add_item('CF1')
+      cart.add_item('CF1')
+      cart.add_item('CF1')
+      cart.add_item('CF1')
+      cart.add_item('CF1')
+      cart.add_item('AP1')
+      cart.add_item('AP1')
+      cart.add_item('AP1')
+      cart.add_item('AP1')
+      cart.add_item('AP1')
+      cart.add_item('CH1')
+      cart.add_item('CH1')
+      cart.add_item('CH1')
+      cart.add_item('CH1')
+      cart.add_item('MK1')
+      cart.add_item('MK1')
+      cart.add_item('MK1')
+      discounts = Discounts.new(products, cart.items)
+      expect(cart.calculate_total(discounts, products)).to eq(78.13)
+    end
   end
 end

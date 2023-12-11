@@ -11,22 +11,6 @@ describe Checkout do
     end
   end
 
-  describe '#add_product_option' do
-    it 'adds a product option to the products hash' do
-      checkout.add_product_option('CH1', 'Chai', 3.11)
-      expect(checkout.products['CH1']).to be_a(Product)
-    end
-    it 'raises an error when invalid product options are passed' do
-      expect { checkout.add_product_option(123, 'Chai', 3.11) }.to raise_error('Invalid Product Options')
-    end
-    it 'adds a product option with the correct attributes' do
-      checkout.add_product_option('CH1', 'Chai', 3.11)
-      expect(checkout.products['CH1'].code).to eq('CH1')
-      expect(checkout.products['CH1'].name).to eq('Chai')
-      expect(checkout.products['CH1'].price).to eq(3.11)
-    end
-  end
-
   # This test simulates the user entering 'CH1' and 'exit' when prompted for input
   # It stubs gets and returns CH1 the first time and exit the second time
   describe '#start_checkout' do
@@ -55,4 +39,21 @@ describe Checkout do
       expect { checkout.scan('XYZ') }.to output(/Invalid product code. Try again./).to_stdout
     end
   end
+
+  describe '#add_product_option' do
+    it 'adds a product option to the products hash' do
+      checkout.add_product_option('CH1', 'Chai', 3.11)
+      expect(checkout.products['CH1']).to be_a(Product)
+    end
+    it 'raises an error when invalid product options are passed' do
+      expect { checkout.add_product_option(123, 'Chai', 3.11) }.to raise_error('Invalid Product Options')
+    end
+    it 'adds a product option with the correct attributes' do
+      checkout.add_product_option('CH1', 'Chai', 3.11)
+      expect(checkout.products['CH1'].code).to eq('CH1')
+      expect(checkout.products['CH1'].name).to eq('Chai')
+      expect(checkout.products['CH1'].price).to eq(3.11)
+    end
+  end
+
 end

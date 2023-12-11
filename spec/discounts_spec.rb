@@ -85,4 +85,26 @@ describe Discounts do
       expect(discounts.appl('AP1', 3)).to eq(4.50)
     end
   end
+
+  describe '#chmk' do
+    it 'returns the price of milk if there is no chai' do
+      cart.add_item('MK1')
+      discounts = Discounts.new(products, cart.items)
+      expect(discounts.chmk('MK1')).to eq(4.75)
+    end
+    it 'returns the price of milk if there is chai and the milk count is 1' do
+      cart.add_item('CH1')
+      cart.add_item('MK1')
+      discounts = Discounts.new(products, cart.items)
+      expect(discounts.chmk('MK1')).to eq(0)
+    end
+    it 'returns the price of milk if there is chai and the milk count is 2' do
+      cart.add_item('CH1')
+      cart.add_item('MK1')
+      cart.add_item('MK1')
+      discounts = Discounts.new(products, cart.items)
+      discounts.instance_variable_set(:@chmk_count, 1)
+      expect(discounts.chmk('MK1')).to eq(4.75)
+    end
+  end
 end

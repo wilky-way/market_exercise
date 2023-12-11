@@ -6,6 +6,7 @@ class Discounts
     @chmk_count = 0
   end
 
+  # Apply discounts to the appropriate products
   def apply_discounts(code)
     case code
     when 'CF1'
@@ -19,6 +20,7 @@ class Discounts
     end
   end
 
+  # Buy-One-Get-One-Free Special on Coffee. (Unlimited)
   def bogo(code)
     price = @products[code].price
     if @bogo_flag == true
@@ -29,6 +31,7 @@ class Discounts
     price
   end
 
+  # If you buy 3 or more bags of Apples, the price drops to $4.50.
   def appl(code, quantity)
     price = @products[code].price
     if quantity >= 3
@@ -39,6 +42,7 @@ class Discounts
     end
   end
 
+  # Purchase a box of Chai and get milk free. (Limit 1)
   def chmk(code)
     price = @products[code].price
     if @cart['CH1']&.positive? && @chmk_count == 0

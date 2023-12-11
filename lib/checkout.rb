@@ -18,7 +18,7 @@ class Checkout
       handle_input(input)
     end
   end
-  
+
   # Add a product to the cart
   def scan(code)
     if @products.include?(code)
@@ -34,6 +34,7 @@ class Checkout
   # Add a new product option
   def add_product_option(code, name, price)
     raise 'Invalid Product Options' unless code.is_a?(String) && name.is_a?(String) && (price.is_a?(Float) || price.is_a?(Integer))
+
     @products[code] = Product.new(code, name, price)
   end
 

@@ -7,6 +7,7 @@ class Cart
     @items = {}
   end
 
+  # Add an item to the cart
   def add_item(code)
     @items[code] = 0 unless @items.include?(code)
     @items[code] += 1
@@ -25,7 +26,9 @@ class Cart
     total = 0
     @items.each do |code, quantity|
       quantity.times do
+        # Print out the product name and original price
         puts "#{products[code].name.ljust(30)}#{"$#{format('%.2f', products[code].price)}".rjust(6)}"
+        # Add the discounted price to the total and print out the discounts if applicable
         total += discounts.apply_discounts(code).to_f
       end
     end
