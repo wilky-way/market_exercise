@@ -13,8 +13,8 @@ class Cart
     @items[code] += 1
   end
 
-  # Initialize the discount class every time we print the total
-  def print_total(products)
+  # Print out the receipt and caclulate the total
+  def print_receipt(products)
     discounts = Discounts.new(products, @items)
     print_header
     total = calculate_total(discounts, products)
@@ -28,7 +28,7 @@ class Cart
       quantity.times do
         # Print out the product name and original price
         puts "#{products[code].name.ljust(30)}#{"$#{format('%.2f', products[code].price)}".rjust(6)}"
-        # Add the discounted price to the total and print out the discounts if applicable
+        # Add the discounted price to the total and print discount
         total += discounts.apply_discounts(code).to_f
       end
     end

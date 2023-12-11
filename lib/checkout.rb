@@ -46,7 +46,7 @@ class Checkout
   def handle_input(input)
     case input
     when 'total'
-      @cart.print_total(@products)
+      @cart.print_receipt(@products)
     else
       scan(input)
     end
