@@ -1,4 +1,4 @@
-class Discount
+class Discounts
   def initialize(products, cart)
     @products = products
     @cart = cart
