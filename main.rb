@@ -1,4 +1,4 @@
-require_relative 'checkout'
+require_relative 'lib/checkout'
 
 # Create a new checkout instance
 checkout = Checkout.new
