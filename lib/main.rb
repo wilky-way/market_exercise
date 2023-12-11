@@ -1,4 +1,3 @@
-require_relative 'product'
 require_relative 'checkout'
 
 # Create a new checkout instance
@@ -11,4 +10,4 @@ checkout.add_product_option('CF1', 'Coffee', 11.23)
 checkout.add_product_option('MK1', 'Milk', 4.75)
 
 # Start the checkout process
-checkout.run
+checkout.start_checkout

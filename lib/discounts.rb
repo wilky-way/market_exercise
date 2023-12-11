@@ -19,8 +19,6 @@ class Discounts
     end
   end
 
-  private
-
   def bogo(code)
     price = @products[code].price
     if @bogo_flag == true

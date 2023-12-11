@@ -12,23 +12,23 @@ class Cart
     @items[code] += 1
   end
 
-  # Initialize the discount class and calculate the total using the discounts
-  def total(products)
+  # Initialize the discount class every time we print the total
+  def print_total(products)
     discounts = Discounts.new(products, @items)
-    calculate_total(discounts, products)
+    print_header
+    total = calculate_total(discounts, products)
+    print_footer(total)
   end
 
   # Calculate the total and print out the results
   def calculate_total(discounts, products)
-    print_header
     total = 0
     @items.each do |code, quantity|
       quantity.times do
         puts "#{products[code].name.ljust(30)}#{"$#{format('%.2f', products[code].price)}".rjust(6)}"
-        total += discounts.apply_discounts(code)
+        total += discounts.apply_discounts(code).to_f
       end
     end
-    print_total(total)
     total
   end
 
@@ -37,7 +37,7 @@ class Cart
     puts '----                           -----'
   end
 
-  def print_total(total)
+  def print_footer(total)
     puts '------------------------------------'
     puts format('%.2f', total).to_s.rjust(36)
   end
