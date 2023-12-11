@@ -88,4 +88,22 @@ describe Cart do
       expect(cart.calculate_total(discounts, products)).to eq(78.13)
     end
   end
+
+  describe '#print_header' do
+    it 'prints the header' do
+      expect { cart.print_header }.to output(/Item                           Price/).to_stdout
+    end
+    it 'prints the dashes' do
+      expect { cart.print_header }.to output(/----                           -----/).to_stdout
+    end
+  end
+
+  describe '#print_footer' do
+    it 'prints the dashes' do
+      expect { cart.print_footer(9.11) }.to output(/------------------------------------/).to_stdout
+    end
+    it 'prints the total' do
+      expect { cart.print_footer(9.11) }.to output(/9.11/).to_stdout
+    end
+  end
 end
