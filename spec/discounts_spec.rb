@@ -12,6 +12,25 @@ describe Discounts do
   let(:cart) { Cart.new }
   # let(:discounts) { Discounts.new(products, cart.items) }
 
+  describe '#initialize' do
+    it 'sets the products instance variable' do
+      discounts = Discounts.new(products, cart.items)
+      expect(discounts.instance_variable_get(:@products)).to eq(products)
+    end
+    it 'sets the cart instance variable' do
+      discounts = Discounts.new(products, cart.items)
+      expect(discounts.instance_variable_get(:@cart)).to eq(cart.items)
+    end
+    it 'sets the bogo_flag instance variable to false' do
+      discounts = Discounts.new(products, cart.items)
+      expect(discounts.instance_variable_get(:@bogo_flag)).to eq(false)
+    end
+    it 'sets the chmk_count instance variable to 0' do
+      discounts = Discounts.new(products, cart.items)
+      expect(discounts.instance_variable_get(:@chmk_count)).to eq(0)
+    end
+  end
+
   describe '#apply_discounts' do
     it 'returns the price of the product if no discount is applied' do
       cart.add_item('CH1')
