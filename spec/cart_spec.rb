@@ -1,7 +1,6 @@
 require_relative '../lib/cart'
 require_relative '../lib/product'
 
-
 describe Cart do
   let(:products) do
     {
@@ -103,7 +102,7 @@ describe Cart do
       expect { cart.print_footer(9.11) }.to output(/------------------------------------/).to_stdout
     end
     it 'prints the total' do
-      expect { cart.print_footer(9.11) }.to output(/9.11/).to_stdout
+      expect { cart.print_footer(9.11) }.to output(/\$9.11/).to_stdout
     end
   end
 end
