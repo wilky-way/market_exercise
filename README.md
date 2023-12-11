@@ -19,9 +19,13 @@ This is a checkout system for a farmer's market that sells 4 products.
 3. CHMK -- Purchase a box of Chai and get milk free. (Limit 1)
 
 # Getting Started
+
+### Test the program using RSpec:
+`rspec spec`
+
 ### Start the program by running the following command in the lib directory:
 
-`ruby market.rb`
+`ruby main.rb`
 
 ### Add items to the cart by entering a product code (AP1, CH1, etc.).
 ```
