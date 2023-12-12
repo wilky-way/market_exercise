@@ -41,10 +41,9 @@ class Discounts
     price = @products[code].price
     if quantity >= 3
       @printer.print_discount('APPL', 1.50)
-      price - 1.50
-    else
-      price
+      price -= 1.50
     end
+    price
   end
 
   # Purchase a box of Chai and get milk free. (Limit 1)
@@ -53,9 +52,8 @@ class Discounts
     if @cart['CH1']&.positive? && @chmk_count.zero?
       @chmk_count += 1
       @printer.print_discount('CHMK', price)
-      0
-    else
-      price
+      price = 0
     end
+    price
   end
 end
