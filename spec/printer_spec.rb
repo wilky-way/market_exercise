@@ -40,7 +40,6 @@ describe Printer do
     end
     it 'passes test case 2' do
       items = { 'MK1' => 1, 'AP1' => 1 }
-      discounts = Discounts.new(products, items)
       expect(printer.calculate_total(products, items)).to eq(10.75)
     end
     it 'passes test case 3' do
