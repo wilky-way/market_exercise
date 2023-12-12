@@ -3,16 +3,17 @@ require_relative 'discounts'
 class Printer
   # Print out the receipt and caclulate the total
   def print_receipt(products, items)
-    discounts = Discounts.new(products, items)
     print_header
-    total = calculate_total(discounts, products, items)
+    total = calculate_total(products, items)
     print_footer(total)
     total
   end
 
   # Calculate the total and print out the results
-  def calculate_total(discounts, products, items)
+  def calculate_total(products, items)
+    discounts = Discounts.new(products, items)
     total = 0
+
     items.each do |code, quantity|
       quantity.times do
         # Print out the product name and original price

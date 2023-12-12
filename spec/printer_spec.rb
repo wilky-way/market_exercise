@@ -15,7 +15,7 @@ describe Printer do
     it 'prints the items, discounts, and total in the correct format' do
       items = { 'CH1' => 1, 'AP1' => 1, 'CF1' => 1, 'MK1' => 1 }
       $stdout = StringIO.new
-      printer.print_receipt(products,items)
+      printer.print_receipt(products, items)
       $stdout.rewind
       expect($stdout.gets).to eq("Item                           Price\n")
       expect($stdout.gets).to eq("----                           -----\n")
@@ -32,33 +32,28 @@ describe Printer do
   describe '#calculate_total' do
     it 'returns the total cost of the cart' do
       items = { 'CH1' => 1, 'AP1' => 1}
-      discounts = Discounts.new(products, items)
-      expect(printer.calculate_total(discounts, products, items)).to eq(9.11)
+      expect(printer.calculate_total(products, items)).to eq(9.11)
     end
     it 'passes test case 1' do
       items = { 'CH1' => 1, 'AP1' => 1, 'CF1' => 1, 'MK1' => 1 }
-      discounts = Discounts.new(products, items)
-      expect(printer.calculate_total(discounts, products, items)).to eq(20.34)
+      expect(printer.calculate_total(products, items)).to eq(20.34)
     end
     it 'passes test case 2' do
       items = { 'MK1' => 1, 'AP1' => 1 }
       discounts = Discounts.new(products, items)
-      expect(printer.calculate_total(discounts, products, items)).to eq(10.75)
+      expect(printer.calculate_total(products, items)).to eq(10.75)
     end
     it 'passes test case 3' do
       items = { 'CF1' => 2 }
-      discounts = Discounts.new(products, items)
-      expect(printer.calculate_total(discounts, products, items)).to eq(11.23)
+      expect(printer.calculate_total(products, items)).to eq(11.23)
     end
     it 'passes test case 4' do
       items = { 'AP1' => 3, 'CH1' => 1 }
-      discounts = Discounts.new(products, items)
-      expect(printer.calculate_total(discounts, products, items)).to eq(16.61)
+      expect(printer.calculate_total(products, items)).to eq(16.61)
     end
     it 'passes test case 5' do
       items = { 'CF1' => 5, 'AP1' => 5, 'CH1' => 4, 'MK1' => 3 }
-      discounts = Discounts.new(products, items)
-      expect(printer.calculate_total(discounts, products, items)).to eq(78.13)
+      expect(printer.calculate_total(products, items)).to eq(78.13)
     end
   end
 
