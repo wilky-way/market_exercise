@@ -43,7 +43,7 @@ describe Checkout do
       expect(checkout).to receive(:handle_input)
       checkout.start_checkout
     end
-    it 'breaks the loop and when the user enters "exit"' do
+    it 'breaks the loop and exits when the user enters "exit"' do
       # Read exit from gets
       allow(checkout).to receive(:gets).and_return('exit')
       expect(checkout).not_to receive(:handle_input)
