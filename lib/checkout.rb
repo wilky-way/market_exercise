@@ -42,8 +42,6 @@ class Checkout
     end
   end
 
-  private
-
   # Route commands to the appropriate method
   def handle_input(input)
     case input

@@ -30,6 +30,7 @@ describe Checkout do
 
   describe '#start_checkout' do
     it 'prompts the user to enter a product code or total' do
+      # Read AP1 from gets and then exit
       allow(checkout).to receive(:gets).and_return('AP1', 'exit')
       $stdout = StringIO.new
       checkout.start_checkout
@@ -37,11 +38,13 @@ describe Checkout do
       expect($stdout.gets).to eq("Please enter the product code or 'total': \n")
     end
     it 'calls the handle_input method with AP1 as user input' do
+      # Read AP1 from gets and then exit
       allow(checkout).to receive(:gets).and_return('AP1', 'exit')
       expect(checkout).to receive(:handle_input)
       checkout.start_checkout
     end
-    it 'breaks the loop when the user enters "exit"' do
+    it 'breaks the loop and when the user enters "exit"' do
+      # Read exit from gets
       allow(checkout).to receive(:gets).and_return('exit')
       expect(checkout).not_to receive(:handle_input)
       checkout.start_checkout
@@ -75,6 +78,16 @@ describe Checkout do
       expect(checkout.products['CH1'].code).to eq('CH1')
       expect(checkout.products['CH1'].name).to eq('Chai')
       expect(checkout.products['CH1'].price).to eq(3.11)
+    end
+  end
+  describe '#handle_input' do
+    it 'calls the scan method when the input is a product code' do
+      expect(checkout).to receive(:scan).with('AP1')
+      checkout.handle_input('AP1')
+    end
+    it 'calls the print_receipt method when the input is "total"' do
+      expect(checkout.printer).to receive(:print_receipt)
+      checkout.handle_input('total')
     end
   end
 end
