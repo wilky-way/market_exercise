@@ -1,18 +1,20 @@
 require_relative 'product'
 require_relative 'cart'
+require_relative 'printer'
 
 class Checkout
-  attr_reader :cart, :products
+  attr_reader :cart, :products, :printer
 
   def initialize
     @cart = Cart.new
+    @printer = Printer.new
     @products = {}
   end
 
   # Main loop for the checkout process
   def start_checkout
     loop do
-      puts 'Please enter the product code or "total": '
+      puts "Please enter the product code or 'total': "
       input = gets.chomp
       break if input == 'exit'
       handle_input(input)
@@ -23,9 +25,7 @@ class Checkout
   def scan(code)
     # Validate the input before adding it to the cart
     if @products.include?(code)
-      puts '------------------------------------------'
-      puts "Added #{@products[code].name} to your cart"
-      puts '------------------------------------------'
+      @printer.print_add_item(products[code].name)
       @cart.add_item(code)
     else
       puts 'Invalid product code. Try again.'
@@ -48,7 +48,7 @@ class Checkout
   def handle_input(input)
     case input
     when 'total'
-      @cart.print_receipt(@products)
+      @printer.print_receipt(@products, @cart.items)
     else
       scan(input)
     end

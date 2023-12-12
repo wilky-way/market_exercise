@@ -1,4 +1,6 @@
 require_relative '../lib/discounts'
+require_relative '../lib/printer'
+require_relative '../lib/product'
 
 describe Discounts do
   let(:products) do
@@ -9,47 +11,42 @@ describe Discounts do
       'MK1' => Product.new('MK1', 'Milk', 4.75)
     }
   end
-  let(:cart) { Cart.new }
-  # let(:discounts) { Discounts.new(products, cart.items) }
+  let(:printer) { Printer.new }
+  # let(:cart) { Cart.new }
+  let(:discounts) { Discounts.new(products, {}) }
 
   describe '#initialize' do
-    it 'sets the products instance variable' do
-      discounts = Discounts.new(products, cart.items)
-      expect(discounts.instance_variable_get(:@products)).to eq(products)
+    it 'initializes a Printer object' do
+      expect(discounts.printer).to be_a(Printer)
+    end
+    it 'initializes the products instance variable' do
+      expect(discounts.products).to eq(products)
     end
     it 'sets the cart instance variable' do
-      discounts = Discounts.new(products, cart.items)
-      expect(discounts.instance_variable_get(:@cart)).to eq(cart.items)
+      expect(discounts.cart).to eq({})
     end
     it 'sets the bogo_flag instance variable to false' do
-      discounts = Discounts.new(products, cart.items)
-      expect(discounts.instance_variable_get(:@bogo_flag)).to eq(false)
+      expect(discounts.bogo_flag).to eq(false)
     end
     it 'sets the chmk_count instance variable to 0' do
-      discounts = Discounts.new(products, cart.items)
-      expect(discounts.instance_variable_get(:@chmk_count)).to eq(0)
+      expect(discounts.chmk_count).to eq(0)
     end
   end
 
   describe '#apply_discounts' do
-    it 'returns the price of the product if no discount is applied' do
-      cart.add_item('CH1')
-      discounts = Discounts.new(products, cart.items)
+    it 'returns the price of the product if no discount exists for a product code' do
       expect(discounts.apply_discounts('CH1')).to eq(3.11)
     end
     it 'calls the bogo method if the code is CH1' do
-      discounts = Discounts.new(products, cart.items)
       expect(discounts).to receive(:bogo).with('CF1')
       discounts.apply_discounts('CF1')
     end
     it 'calls the appl method if the code is AP1' do
-      discounts = Discounts.new(products, cart.items)
-      cart.add_item('AP1')
+      discounts = Discounts.new(products, { 'AP1' => 1 })
       expect(discounts).to receive(:appl).with('AP1', 1)
       discounts.apply_discounts('AP1')
     end
     it 'calls the chmk method if the code is MK1' do
-      discounts = Discounts.new(products, cart.items)
       expect(discounts).to receive(:chmk).with('MK1')
       discounts.apply_discounts('MK1')
     end
@@ -57,72 +54,68 @@ describe Discounts do
 
   describe '#bogo' do
     it 'sets the bogo flag to true if it is false' do
-      discounts = Discounts.new(products, cart.items)
-      discounts.instance_variable_set(:@bogo_flag, false)
       discounts.bogo('CF1')
-      expect(discounts.instance_variable_get(:@bogo_flag)).to eq(true)
+      expect(discounts.bogo_flag).to eq(true)
     end
-    it 'sets the bogo flag to false if it is true' do
-      discounts = Discounts.new(products, cart.items)
-      discounts.instance_variable_set(:@bogo_flag, true)
+    it 'sets the bogo flag to false if there are 2 coffees' do
       discounts.bogo('CF1')
-      expect(discounts.instance_variable_get(:@bogo_flag)).to eq(false)
+      discounts.bogo('CF1')
+      expect(discounts.bogo_flag).to eq(false)
     end
     it 'returns the price of a coffee there is 1' do
-      cart.add_item('CF1')
-      discounts = Discounts.new(products, cart.items)
+      items = { 'CF1' => 1 }
+      discounts = Discounts.new(products, items)
       expect(discounts.bogo('CF1')).to eq(11.23)
     end
     it 'returns 0 if there are 2 coffees' do
-      cart.add_item('CF1')
-      cart.add_item('CF1')
-      discounts = Discounts.new(products, cart.items)
-      discounts.instance_variable_set(:@bogo_flag, true)
+      items = { 'CF1' => 2 }
+      discounts = Discounts.new(products, items)
+
+      # Simulate bogo flag being set to true from the first coffee
+      discounts.bogo('CF1')
+
       expect(discounts.bogo('CF1')).to eq(0)
     end
-    it 'returns the price of a single coffee if there are 3 coffees' do
-      cart.add_item('CF1')
-      cart.add_item('CF1')
-      cart.add_item('CF1')
-      discounts = Discounts.new(products, cart.items)
-      discounts.instance_variable_set(:@bogo_flag, false)
+    it 'returns the price of a coffee if there are 3 coffees' do
+      items = { 'CF1' => 3 }
+      discounts = Discounts.new(products, items)
+
+      # Simulate bogo flag being set to true from the first coffee, 
+      # then set it to false from the second coffee
+      discounts.bogo('CF1')
+      discounts.bogo('CF1')
+
       expect(discounts.bogo('CF1')).to eq(11.23)
     end
   end
 
   describe '#appl' do
     it 'returns the price of apples if there are less than 3' do
-      cart.add_item('AP1')
-      discounts = Discounts.new(products, cart.items)
-      expect(discounts.appl('AP1', 1)).to eq(6.00)
+      expect(discounts.appl('AP1', 2)).to eq(6.00)
     end
     it 'returns the price of apples minus 1.50 if there are 3 or more' do
-      cart.add_item('AP1')
-      cart.add_item('AP1')
-      cart.add_item('AP1')
-      discounts = Discounts.new(products, cart.items)
       expect(discounts.appl('AP1', 3)).to eq(4.50)
     end
   end
 
   describe '#chmk' do
     it 'returns the price of milk if there is no chai' do
-      cart.add_item('MK1')
-      discounts = Discounts.new(products, cart.items)
+      items = { 'MK1' => 1 }
+      discounts = Discounts.new(products, items)
       expect(discounts.chmk('MK1')).to eq(4.75)
     end
     it 'returns the price of milk if there is chai and the milk count is 1' do
-      cart.add_item('CH1')
-      cart.add_item('MK1')
-      discounts = Discounts.new(products, cart.items)
+      items = { 'CH1' => 1, 'MK1' => 1 }
+      discounts = Discounts.new(products, items)
       expect(discounts.chmk('MK1')).to eq(0)
     end
     it 'returns the price of milk if there is chai and the milk count is 2' do
-      cart.add_item('CH1')
-      cart.add_item('MK1')
-      cart.add_item('MK1')
-      discounts = Discounts.new(products, cart.items)
-      discounts.instance_variable_set(:@chmk_count, 1)
+      items = { 'CH1' => 1, 'MK1' => 2 }
+      discounts = Discounts.new(products, items)
+
+      # Simulate chmk_count being incremented to 1 from the first milk
+      discounts.chmk('MK1')
+
       expect(discounts.chmk('MK1')).to eq(4.75)
     end
   end

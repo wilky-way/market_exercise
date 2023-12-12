@@ -1,5 +1,10 @@
+require_relative 'printer'
+
 class Discounts
+  attr_reader :printer, :products, :cart, :bogo_flag, :chmk_count
+  
   def initialize(products, cart)
+    @printer = Printer.new
     @products = products
     @cart = cart
     @bogo_flag = false
@@ -24,7 +29,7 @@ class Discounts
   def bogo(code)
     price = @products[code].price
     if @bogo_flag == true
-      puts "            BOGO             -$#{format('%.2f', price)}"
+      @printer.print_discount('BOGO', price)
       price = 0
     end
     @bogo_flag = !@bogo_flag
@@ -35,7 +40,7 @@ class Discounts
   def appl(code, quantity)
     price = @products[code].price
     if quantity >= 3
-      puts '            APPL              -$1.50'
+      @printer.print_discount('APPL', 1.50)
       price - 1.50
     else
       price
@@ -47,7 +52,7 @@ class Discounts
     price = @products[code].price
     if @cart['CH1']&.positive? && @chmk_count.zero?
       @chmk_count += 1
-      puts "            CHMK              -$#{price}"
+      @printer.print_discount('CHMK', price)
       0
     else
       price
