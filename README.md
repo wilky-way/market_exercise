@@ -23,7 +23,7 @@ This is a checkout system for a farmer's market that sells 4 products.
 ### Test the program using RSpec:
 `rspec spec`
 
-### Start the program by running the following command in the lib directory:
+### Start the program by running the following command:
 
 `ruby main.rb`
 
