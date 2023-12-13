@@ -35,14 +35,16 @@ MK1
 
 ### Calculate the total by entering the "total" command.
 ```
-Please enter the product code or "total": 
 total
-Item                          Price
-----                          -----
-Milk                          $4.75
-Milk                          $4.75
-Chai                          $3.11
------------------------------------
-                             $12.61
+Item                           Price
+----                           -----
+Apples                         $6.00
+            APPL              -$1.50
+Apples                         $6.00
+            APPL              -$1.50
+Apples                         $6.00
+            APPL              -$1.50
+------------------------------------
+                              $13.50
 ```
 
