@@ -30,7 +30,7 @@ This is a checkout system for a farmer's market that sells 4 products.
 ### Add items to the cart by entering a product code (AP1, CH1, etc.).
 ```
 Please enter the product code or "total": 
-MK1
+AP1
 ```
 
 ### Calculate the total by entering the "total" command.
