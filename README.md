@@ -35,6 +35,7 @@ AP1
 
 ### Calculate the total by entering the "total" command.
 ```
+Please enter the product code or 'total': 
 total
 Item                           Price
 ----                           -----
