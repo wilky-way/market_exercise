@@ -12,6 +12,9 @@ class Printer
   # Calculate the total and print out the results
   def calculate_total(products, items)
     discounts = Discounts.new(products, items)
+    discounts.create_discount('buy_x_get_y_off', 'BOGO', 1, 1, 'CF1', 0, 'CF1')
+    discounts.create_discount('bulk', 'APPL', 0.25, 3, 'AP1')
+    discounts.create_discount('buy_x_get_y_off', 'CHMK', 1.00, 1, 'MK1', 1, 'CH1')
     total = 0
 
     items.each do |code, quantity|
